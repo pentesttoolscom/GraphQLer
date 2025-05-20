@@ -3,7 +3,7 @@ name = "GraphQLer"
 version = "2.3.7"
 description = "A cutting edge context aware GraphQL API fuzzing tool!"
 authors = [{ name = "Omar2535", email = "omar@9tsai.ca" }]
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.11,<3.13"
 readme = "README.md"
 license = "MIT"
 dependencies = [
@@ -87,6 +87,7 @@ dependencies = [
     "pyyaml==6.0.1",
     "cloudpickle>=3.1.0,<4",
     "requests>=2.28",
+    "typing_extensions>=4.13.2",
 ]
 
 [tool.uv]

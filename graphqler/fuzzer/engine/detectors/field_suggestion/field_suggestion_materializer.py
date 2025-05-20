@@ -5,7 +5,12 @@ from graphqler.utils.api import API
 from graphqler.utils.objects_bucket import ObjectsBucket
 
 import random
-from typing import override
+import sys
+
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
 
 
 class FieldSuggestionMaterializer(Materializer):

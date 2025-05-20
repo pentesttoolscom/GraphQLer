@@ -4,7 +4,12 @@ from graphqler.fuzzer.engine.materializers.utils.materialization_utils import pr
 from graphqler.utils.api import API
 from graphqler.utils.objects_bucket import ObjectsBucket
 
-from typing import override
+import sys
+
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
 
 
 class IntrospectionMaterializer(Materializer):

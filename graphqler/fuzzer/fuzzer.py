@@ -61,11 +61,11 @@ class Fuzzer(object):
         """Main function to run the fuzzer"""
         # Create a separate thread / process so that we can kill it if it takes too long / times out
         queue = multiprocessing.Queue()
-        if config.DEBUG:
-            p = threading.Thread(target=self.__run_steps, args=(queue,))
-            p.daemon = True
-        else:
-            p = multiprocessing.Process(target=self.__run_steps, args=(queue,))
+        # if config.DEBUG:
+        p = threading.Thread(target=self.__run_steps, args=(queue,))
+        p.daemon = True
+        # else:
+        # p = multiprocessing.Process(target=self.__run_steps, args=(queue,))
         p.start()
         p.join(config.MAX_TIME)
 
