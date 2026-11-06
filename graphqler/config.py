@@ -50,6 +50,7 @@ BUILT_IN_TYPE_KINDS = ["SCALAR", "OBJECT", "INTERFACE", "UNION", "ENUM", "INPUT_
 
 """For materializers"""
 MAX_OBJECT_CYCLES = 5
+MAX_INPUT_OBJECT_CYCLES = 5
 MAX_OUTPUT_SELECTOR_DEPTH = 5
 HARD_CUTOFF_DEPTH = 20
 MAX_INPUT_DEPTH = 20
@@ -64,6 +65,7 @@ IDOR_LOG_FILE_PATH = "logs/idor.log"
 STATS_FILE_NAME = "stats.txt"
 OBJECTS_BUCKET_TEXT_FILE_NAME = "objects_bucket.txt"
 UNIQUE_RESPONSES_FILE_NAME = "unique_responses.txt"
+SAVE_ENDPOINT_RESULTS = False  # True keeps every result in memory and rewrites them to disk after each request
 
 """For plugins"""
 PLUGINS_PATH = f"{OUTPUT_DIRECTORY}/plugins"

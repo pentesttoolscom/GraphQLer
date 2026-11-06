@@ -25,6 +25,7 @@ class Materializer:
         self.logger = Logger().get_fuzzer_logger().getChild(__name__)  # Get a child logger
         self.fail_on_hard_dependency_not_met = fail_on_hard_dependency_not_met
         self.used_objects = {}
+        self.used_input_objects: list[str] = []
         self.max_depth = max_depth
         self.getter = getter
 
@@ -329,8 +330,13 @@ class Materializer:
         elif input_field["kind"] == "LIST":
             built_str += f"[{self.materialize_input_recursive(operator_info, input_field['ofType'], objects_bucket, input_name, True, max_depth, current_depth)}]"
         elif input_field["kind"] == "INPUT_OBJECT":
-            input_object = self.api.input_objects[input_field["type"]]
-            built_str += "{" + self.materialize_input_fields(operator_info, input_object["inputFields"], objects_bucket, max_depth, current_depth) + "}"
+            # Cap expansions per input type, or recursive inputs (e.g. where: {and, or, not}) grow exponentially
+            if self.used_input_objects.count(input_field["type"]) >= config.MAX_INPUT_OBJECT_CYCLES:
+                built_str += "{}"
+            else:
+                self.used_input_objects.append(input_field["type"])
+                input_object = self.api.input_objects[input_field["type"]]
+                built_str += "{" + self.materialize_input_fields(operator_info, input_object["inputFields"], objects_bucket, max_depth, current_depth) + "}"
         elif input_field["kind"] == "SCALAR":
             built_str += self.getter.get_random_scalar(input_name, input_field["type"], objects_bucket)
         elif input_field["kind"] == "ENUM":
