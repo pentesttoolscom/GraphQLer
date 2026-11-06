@@ -104,7 +104,7 @@ class Fuzzer(object):
             dict: The objects bucket
         """
         nodes_to_run = list(self.dependency_graph.nodes)
-        self.__run_nodes(nodes_to_run)
+        self.__run_nodes(nodes_to_run, deadline=time.time() + config.MAX_TIME)
         self.logger.info("Completed fuzzing")
         self.stats.print_results()
         self.stats.save()
@@ -159,16 +159,20 @@ class Fuzzer(object):
         self.stats.save()
         self.objects_bucket.save()
 
-    def __run_nodes(self, nodes: list[Node]):
+    def __run_nodes(self, nodes: list[Node], deadline: typing.Optional[float] = None):
         """Runs the nodes given in the list
 
         Args:
             nodes (list[Node]): List of nodes to run
+            deadline (float, optional): time.time() after which no more nodes are started
 
         Raises:
             Exception: If the GraphQL type of the node is unknown
         """
         for current_node in nodes:
+            if deadline is not None and time.time() >= deadline:
+                self.logger.info(f"Reached max time {config.MAX_TIME}s, stopping")
+                break
             self.stats.print_running_stats()
             self.logger.info(f"Running node: {current_node}")
             _next_visit_path, result = self.__run_node(current_node, [current_node], check_hard_depends_on=False)

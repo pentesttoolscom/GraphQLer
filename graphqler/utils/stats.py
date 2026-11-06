@@ -168,6 +168,9 @@ class Stats :
         else:
             self.add_failed_node(node)
 
+        if not config.SAVE_ENDPOINT_RESULTS:
+            return
+
         # Update results
         if node.name in self.results:
             self.results[node.name].add(result)

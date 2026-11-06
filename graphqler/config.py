@@ -65,6 +65,7 @@ IDOR_LOG_FILE_PATH = "logs/idor.log"
 STATS_FILE_NAME = "stats.txt"
 OBJECTS_BUCKET_TEXT_FILE_NAME = "objects_bucket.txt"
 UNIQUE_RESPONSES_FILE_NAME = "unique_responses.txt"
+SAVE_ENDPOINT_RESULTS = False  # True keeps every result in memory and rewrites them to disk after each request
 
 """For plugins"""
 PLUGINS_PATH = f"{OUTPUT_DIRECTORY}/plugins"
